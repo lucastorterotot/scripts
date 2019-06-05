@@ -569,3 +569,11 @@ color scale colors WBlk {1.0 1.0 1.0} {0.5 0.5 0.5} {0.0 0.0 0.0}
 vmdrestoremycolors
 label textsize 1.0
 axes location off
+light 0 on
+light 0 rot y 40
+light 0 rot z 70
+light 1 on
+light 1 rot z 20
+light 1 rot x 30
+light 2 off
+light 3 off
