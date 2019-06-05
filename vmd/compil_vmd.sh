@@ -11,7 +11,7 @@ for arg in "$@"; do
     oldxyzfile=$(basename $oldxyzfile) ; newxyzfile=$(basename $newxyzfile)
     sed -i "s|$oldxyzfile|$newxyzfile|g" $tmp_script_name
     echo 'render Tachyon vmdscene "/usr/local/lib/vmd/tachyon_LINUXAMD64" -aasamples 12 %s -format TARGA -o %s.tga -res 2048 2048' >> $tmp_script_name
-    vmd -eofexit < $tmp_script_name
+    vmd -dispdev none -eofexit < $tmp_script_name
     convert vmdscene.tga $file'-vmdrender.png'
     rm vmdscene* &
     rm $tmp_script_name &
