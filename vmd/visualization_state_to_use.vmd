@@ -415,6 +415,8 @@ color scale colors WBlk {1.0 1.0 1.0} {0.5 0.5 0.5} {0.0 0.0 0.0}
     {color Type {LP} green}
     {color Type {DRUD} pink}
     {color Element {X} cyan}
+    {color Element {C} gray}
+    {color Name {C} gray}
     {color Element {Ac} ochre}
     {color Element {Ag} ochre}
     {color Element {Al} ochre}
