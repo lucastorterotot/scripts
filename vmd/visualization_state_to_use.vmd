@@ -323,7 +323,7 @@ display eyesep       0.065000
 display focallength  2.000000
 display height       6.000000
 display distance     -2.000000
-display projection   Perspective
+display projection   Orthographic
 display nearclip set 0.500000
 display farclip  set 10.000000
 display depthcue   off
