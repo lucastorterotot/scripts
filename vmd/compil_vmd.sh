@@ -1,3 +1,5 @@
+vmdresolution=1024
+
 for arg in "$@"; do
     directory=$(dirname $arg)
     argnoext=${arg%.*}
@@ -23,7 +25,7 @@ for arg in "$@"; do
         render='/usr/local/lib/vmd/tachyon_LINUXAMD64'
     fi
     
-    echo 'render Tachyon vmdscene "'$render'" -aasamples 12 %s -format TARGA -o %s.tga -res 2048 2048' >> $tmp_script_name
+    echo 'render Tachyon vmdscene "'$render'" -aasamples 12 %s -format TARGA -o %s.tga -res '$vmdresolution' '$vmdresolution >> $tmp_script_name
     
     vmd -dispdev none -eofexit < $tmp_script_name
     
