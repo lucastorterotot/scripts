@@ -417,8 +417,8 @@ color scale colors WBlk {1.0 1.0 1.0} {0.5 0.5 0.5} {0.0 0.0 0.0}
     {color Element {X} cyan}
     {color Element {C} gray}
     {color Element {Ac} ochre}
-    {color Element {Ag} ochre}
-    {color Element {Al} ochre}
+    {color Element {Ag} silver}
+    {color Element {Al} silver}
     {color Element {Am} ochre}
     {color Element {Ar} ochre}
     {color Element {As} ochre}
@@ -431,14 +431,14 @@ color scale colors WBlk {1.0 1.0 1.0} {0.5 0.5 0.5} {0.0 0.0 0.0}
     {color Element {Bi} ochre}
     {color Element {Bk} ochre}
     {color Element {Br} ochre}
-    {color Element {Ca} ochre}
+    {color Element {Ca} orange3}
     {color Element {Cd} ochre}
     {color Element {Ce} ochre}
     {color Element {Cf} ochre}
     {color Element {Cl} green3}
     {color Element {Cm} ochre}
     {color Element {Co} ochre}
-    {color Element {Cr} ochre}
+    {color Element {Cr} silver}
     {color Element {Cs} ochre}
     {color Element {Cu} ochre}
     {color Element {Db} ochre}
@@ -447,8 +447,8 @@ color scale colors WBlk {1.0 1.0 1.0} {0.5 0.5 0.5} {0.0 0.0 0.0}
     {color Element {Er} ochre}
     {color Element {Es} ochre}
     {color Element {Eu} ochre}
-    {color Element {F} ochre}
-    {color Element {Fe} ochre}
+    {color Element {F} yellow3}
+    {color Element {Fe} silver}
     {color Element {Fm} ochre}
     {color Element {Fr} ochre}
     {color Element {Ga} ochre}
@@ -459,7 +459,7 @@ color scale colors WBlk {1.0 1.0 1.0} {0.5 0.5 0.5} {0.0 0.0 0.0}
     {color Element {Hg} ochre}
     {color Element {Ho} ochre}
     {color Element {Hs} ochre}
-    {color Element {I} ochre}
+    {color Element {I} violet2}
     {color Element {In} ochre}
     {color Element {Ir} ochre}
     {color Element {K} ochre}
