@@ -24,6 +24,12 @@ for arg in "$@"; do
     else
         render='/usr/local/lib/vmd/tachyon_LINUXAMD64'
     fi
+
+    if [ -e $directory/common-vmdsuffix.txt ]; then
+        cat $directory/common-vmdsuffix.txt >> $tmp_script_name
+    elif [ -e $directory/$file-vmdsuffix.txt ]; then
+        cat $directory/$file-vmdsuffix.txt >> $tmp_script_name
+    fi
     
     echo 'render Tachyon vmdscene "'$render'" -aasamples 12 %s -format TARGA -o %s.tga -res '$vmdresolution' '$vmdresolution >> $tmp_script_name
     
