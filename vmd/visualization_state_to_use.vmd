@@ -435,7 +435,7 @@ color scale colors WBlk {1.0 1.0 1.0} {0.5 0.5 0.5} {0.0 0.0 0.0}
     {color Element {Cd} ochre}
     {color Element {Ce} ochre}
     {color Element {Cf} ochre}
-    {color Element {Cl} ochre}
+    {color Element {Cl} green3}
     {color Element {Cm} ochre}
     {color Element {Co} ochre}
     {color Element {Cr} ochre}
@@ -473,7 +473,7 @@ color scale colors WBlk {1.0 1.0 1.0} {0.5 0.5 0.5} {0.0 0.0 0.0}
     {color Element {Mn} ochre}
     {color Element {Mo} ochre}
     {color Element {Mt} ochre}
-    {color Element {Na} ochre}
+    {color Element {Na} orange}
     {color Element {Nb} ochre}
     {color Element {Nd} ochre}
     {color Element {Ne} ochre}
