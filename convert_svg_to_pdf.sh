@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo 'Converting svg files to pdf:'
 echo ' '
 

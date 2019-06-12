@@ -1,3 +1,5 @@
+#!/bin/bash
+
 vmdresolution=1024
 
 for arg in "$@"; do

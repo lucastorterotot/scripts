@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo ''
 echo 'Checking LaTeX log files ...'
 echo ''

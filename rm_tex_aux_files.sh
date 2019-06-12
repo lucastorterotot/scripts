@@ -1,3 +1,5 @@
+#!/bin/bash
+
 find . -type f -iname \*.aux -delete
 find . -type f -iname \*.out -delete &
 find . -type f -iname \*.toc -delete &

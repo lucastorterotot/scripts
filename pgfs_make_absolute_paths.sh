@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo 'Corrections on pgf files:'
 echo ' '
 dirstart=$(pwd)

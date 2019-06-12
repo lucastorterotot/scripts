@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo 'Converting eps files to pdf:'
 echo ' '
 

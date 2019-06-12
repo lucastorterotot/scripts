@@ -1,5 +1,5 @@
 #!/bin/bash
-# pdflatex_complete_sequence.sh
+
 nbcompilmax=5
 for arg in "$@"; do
     directory=$(dirname $arg)
@@ -9,7 +9,7 @@ for arg in "$@"; do
     sleep 0.25
     if [ -e $file.bcf ]; then biber $file ; fi &
     if [ -e $file.idx ]; then makeindex $file.idx ; fi &
-    bash ~/scripts/feynmp_compil.sh &
+    ~/scripts/feynmp_compil.sh &
     wait
     sleep 0.25
     pdflatex $directory/$file
