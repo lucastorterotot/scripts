@@ -1,0 +1,26 @@
+#!/bin/bash
+
+echo "Running vmd"
+echo ' '
+
+files=''
+for extension in vmd xyz
+do
+    for file in $(find $(pwd) -type f -iname \*.$extension)
+    do
+        file=${file%.*}
+        if ! [[ $files == *$file* ]]
+        then
+            files=$files' '$file
+        fi
+    done
+done
+
+for file in $files
+do
+    echo $file
+    cd $(dirname $file)
+    vmd_compil $file | grep ERROR
+echo ' '
+done
+
