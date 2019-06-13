@@ -9,7 +9,7 @@ for arg in "$@"; do
     sleep 0.25
     if [ -e $file.bcf ]; then biber $file ; fi &
     if [ -e $file.idx ]; then makeindex $file.idx ; fi &
-    ~/scripts/feynmp_compil.sh &
+    feynmp_compil &
     wait
     sleep 0.25
     pdflatex $directory/$file

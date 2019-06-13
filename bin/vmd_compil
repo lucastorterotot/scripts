@@ -12,7 +12,7 @@ for arg in "$@"; do
     if [ -e $argnoext.vmd ]; then
         cat $argnoext.vmd > $tmp_script_name
     elif [ -e $argnoext.xyz ]; then
-        cat ~/scripts/vmd/visualization_state_to_use.vmd > $tmp_script_name
+        cat ~/scripts/vmd_files/visualization_state_to_use.vmd > $tmp_script_name
         oldxyzfile=$(grep -h 'mol new .*xyz' $tmp_script_name | grep -o '.* type' | grep -o '.*xyz' | grep -o '/.*')
         currentdir=$(pwd) ; cd $directory ; newxyzfile=$(pwd) ; cd $currentdir
         newxyzfile=$newxyzfile'/'$file'.xyz'

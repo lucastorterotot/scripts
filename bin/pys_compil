@@ -19,4 +19,4 @@ for file in $(find . -type f -name fichier.py) ; do
     echo ' '
 done
 
-~/scripts/pgfs_make_absolute_paths.sh
+pgfs_make_absolute_paths
