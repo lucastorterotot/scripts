@@ -12,4 +12,5 @@ for file in $(grep --include="*-pyplot.pgf" -rlHm1 'pgfimage.*{.*pyplot-img.*png
         echo '  '$directory'/'$pgffilename
         sed -i "s|$pgffilename|$directory/$pgffilename|g" $file
     done
+    echo ' '
 done
