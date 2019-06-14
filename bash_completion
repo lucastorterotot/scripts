@@ -1,0 +1,13 @@
+# -*- shell-script -*-
+
+_install_xspec()
+{
+    local xspec=$1 cmd
+    shift
+    for cmd in $@; do
+        _xspecs[$cmd]=$xspec
+    done
+}
+
+_install_xspec '!*.tex' pdflatex_complete_sequence
+_install_xspec '!*.@(vmd|xyz)' vmd_compil
