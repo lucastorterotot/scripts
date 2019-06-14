@@ -16,7 +16,7 @@ for arg in "$@"; do
     nbcompil=2
     while [[ $(grep -l $file.log -e 'Rerun to get cross-references right' -e 'undefined references' -e 'undefined on input line') == $file.log ]] && ((nbcompil < nbcompilmax)); do
         pdflatex $directory/$file
-        ((nbcompil+=1))
+        ((nbcompil++))
     done
     printf '\n\t' ; printf $nbcompil ; printf ' compilations.\n\n'
     rm -f *.1 *.mp *.t1 &
