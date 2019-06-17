@@ -7,7 +7,7 @@ grep -r --color --include="*.log" -e 'Overfull' -e 'Underfull' -e 'undefined on 
 # -e 'multiply-defined'
 echo ''
 echo 'Checking Bibs log files ...'
-grep -r --color --include="*.blg" -ve 'does not contain any citations!' | grep --color -e 'WARN ' -e 'Warning--'
+grep -r --color --include="*.blg" -ve 'does not contain any citations!' -e 'No data sources defined' | grep --color -e 'WARN ' -e 'Warning--'
 echo ''
 echo ''
 echo 'LaTeX and Biber log files checked.'
