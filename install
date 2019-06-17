@@ -19,7 +19,6 @@ else
     fi
     echo "" >> ~/.bashrc
     echo "# --- add $name ---" >> ~/.bashrc
-    echo "export PATH=$bin_dir:"'$PATH' >> ~/.bashrc
-    echo ". $instal_dir/bash_completion" >> ~/.bashrc
+    echo ". $instal_dir/bash_ext" >> ~/.bashrc
     echo "Installation completed."
 fi
