@@ -19,6 +19,6 @@ else
     fi
     echo "" >> ~/.bashrc
     echo "# --- add $name ---" >> ~/.bashrc
-    echo ". $instal_dir/bash_ext" >> ~/.bashrc
+    echo ". $instal_dir/bashrc_ext" >> ~/.bashrc
     echo "Installation completed."
 fi
