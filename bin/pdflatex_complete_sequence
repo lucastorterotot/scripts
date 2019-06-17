@@ -7,8 +7,17 @@ for arg in "$@"; do
     file=$(basename $argnotex)
     pdflatex -draftmode $directory/$file
     sleep 0.25
-    if [ -e $file.bcf ]; then biber $file ; fi &
-    if [ -e $file.idx ]; then makeindex $file.idx ; fi &
+    if [ -e $file.bcf ]
+    then
+        biber $file
+    elif [ -e $file-blx.bib ] && [ -e $file.aux ] 
+    then
+        bibtex $file.aux
+    fi &
+    if [ -e $file.idx ]
+    then
+        makeindex $file.idx
+    fi &
     feynmp_compil &
     wait
     sleep 0.25
