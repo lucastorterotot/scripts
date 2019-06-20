@@ -4,7 +4,7 @@ echo "Running vmd"
 echo ' '
 
 files=''
-for extension in vmd xyz
+for extension in vmd xyz pdb
 do
     for file in $(find $(pwd) -type f -iname \*.$extension)
     do
