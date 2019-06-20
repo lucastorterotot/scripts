@@ -1,0 +1,6 @@
+mol addrep 1
+mol representation Bonds 0.074999 30.000000
+mol color ColorID 8
+mol selection {all}
+mol material BlownGlass
+mol addrep top

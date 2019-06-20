@@ -23,6 +23,11 @@ for arg in "$@"; do
         sed -i "s|xyz|$extension|g" $tmp_script_name
     fi
 
+    if [ -e $argnoext.mol2 ]; then
+        echo "mol new $argnoext.mol2 type mol2 first 0 last -1 step 1 filebonds 1 autobonds 1 waitfor all" >> $tmp_script_name
+        cat $lt_scripts_dir/vmd_files/mol2_files_addition_for_multiple_bonds.txt >> $tmp_script_name
+    fi
+    
     if [ -e $directory/common-vmdsuffix.txt ]; then
         cat $directory/common-vmdsuffix.txt >> $tmp_script_name
     elif [ -e $directory/$file-vmdsuffix.txt ]; then
