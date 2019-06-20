@@ -4,14 +4,19 @@ echo "Running vmd"
 echo ' '
 
 files=''
-for extension in vmd xyz pdb
+files_no_ext=''
+
+# extensions in order of preferred processing if
+# several files wich only differs by their exension exist
+for extension in vmd mol2 xyz pdb cml mol gzmat gamin
 do
     for file in $(find $(pwd) -type f -iname \*.$extension)
     do
-        file=${file%.*}
-        if ! [[ $files == *$file* ]]
+        file_no_ext=${file%.*}
+        if ! [[ $files_no_ext == *$file_no_ext* ]]
         then
             files=$files' '$file
+            files_no_ext=$files_no_ext' '$file_no_ext
         fi
     done
 done
