@@ -2,25 +2,38 @@
 
 vmdresolution=1024
 
+ext_to_convert_mol2="cml mol"
+ext_to_convert_xyz="mol2 gzmat gamin"
+
 for arg in "$@"; do
     directory=$(dirname $arg)
     argnoext=${arg%.*}
     file=$(basename $argnoext)
     extension=${arg#$argnoext.}
+    extension_to_use=$extension
     
     tmp_script_name='tmp_vmd_script_for_'$file'.vmd'
 
+    if [[ $ext_to_convert_mol2 == *$extension* ]]; then
+        babel $arg $argnoext.mol2
+        babel $arg $argnoext.xyz
+        extension_to_use="xyz"
+    elif [[ $ext_to_convert_xyz == *$extension* ]]; then
+        babel $arg $argnoext.xyz
+        extension_to_use="xyz"
+    fi
+
     if [ -e $argnoext.vmd ]; then
         cat $argnoext.vmd > $tmp_script_name
-    elif [ -e $argnoext.$extension ]; then
+    elif [ -e $argnoext.$extension_to_use ]; then
         cat $lt_scripts_dir/vmd_files/visualization_state_to_use.vmd > $tmp_script_name
         oldxyzfile=$(grep -h 'mol new .*xyz' $tmp_script_name | grep -o '.* type' | grep -o '.*xyz' | grep -o '/.*')
         currentdir=$(pwd) ; cd $directory ; newxyzfile=$(pwd) ; cd $currentdir
-        newxyzfile=$newxyzfile'/'$file'.'$extension
+        newxyzfile=$newxyzfile'/'$file'.'$extension_to_use
         sed -i "s|$oldxyzfile|$newxyzfile|g" $tmp_script_name
         oldxyzfile=$(basename $oldxyzfile) ; newxyzfile=$(basename $newxyzfile)
         sed -i "s|$oldxyzfile|$newxyzfile|g" $tmp_script_name
-        sed -i "s|xyz|$extension|g" $tmp_script_name
+        sed -i "s|xyz|$extension_to_use|g" $tmp_script_name
     fi
 
     if [ -e $argnoext.mol2 ]; then
@@ -47,6 +60,13 @@ for arg in "$@"; do
     convert vmdscene.tga $file'-vmdrender.png'
     rm vmdscene* &
     rm $tmp_script_name &
+
+    if [[ $ext_to_convert_mol2 == *$extension* ]]; then
+        rm $argnoext.mol2 $argnoext.xyz
+    elif [[ $ext_to_convert_xyz == *$extension* ]]; then
+        rm $argnoext.xyz
+    fi &
+    
     wait
 done
 
