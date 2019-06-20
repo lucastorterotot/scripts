@@ -22,17 +22,17 @@ for arg in "$@"; do
         sed -i "s|$oldxyzfile|$newxyzfile|g" $tmp_script_name
         sed -i "s|xyz|$extension|g" $tmp_script_name
     fi
-    
-    if [ -e ~/VMD_1_9_3/usr/local/lib/vmd/tachyon_LINUXAMD64 ]; then
-        render='~/VMD_1_9_3/usr/local/lib/vmd/tachyon_LINUXAMD64'
-    else
-        render='/usr/local/lib/vmd/tachyon_LINUXAMD64'
-    fi
 
     if [ -e $directory/common-vmdsuffix.txt ]; then
         cat $directory/common-vmdsuffix.txt >> $tmp_script_name
     elif [ -e $directory/$file-vmdsuffix.txt ]; then
         cat $directory/$file-vmdsuffix.txt >> $tmp_script_name
+    fi
+    
+    if [ -e ~/VMD_1_9_3/usr/local/lib/vmd/tachyon_LINUXAMD64 ]; then
+        render='~/VMD_1_9_3/usr/local/lib/vmd/tachyon_LINUXAMD64'
+    else
+        render='/usr/local/lib/vmd/tachyon_LINUXAMD64'
     fi
     
     echo 'render Tachyon vmdscene "'$render'" -aasamples 12 %s -format TARGA -o %s.tga -res '$vmdresolution' '$vmdresolution >> $tmp_script_name
