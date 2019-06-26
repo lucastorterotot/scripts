@@ -477,7 +477,7 @@ color scale colors WBlk {1.0 1.0 1.0} {0.5 0.5 0.5} {0.0 0.0 0.0}
     {color Element {Nb} ochre}
     {color Element {Nd} ochre}
     {color Element {Ne} ochre}
-    {color Element {Ni} ochre}
+    {color Element {Ni} silver}
     {color Element {No} ochre}
     {color Element {Np} ochre}
     {color Element {Os} ochre}
