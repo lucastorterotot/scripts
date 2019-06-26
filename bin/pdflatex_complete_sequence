@@ -21,11 +21,13 @@ for arg in "$@"; do
     feynmp_compil &
     wait
     sleep 0.25
-    pdflatex $directory/$file
     nbcompil=2
+    printf '\n\t' ; printf "PdfLaTeX run $nbcompil...\n\n"
+    pdflatex -interaction=batchmode -halt-on-error $directory/$file
     while [[ $(grep -l $file.log -e 'Rerun to get cross-references right' -e 'undefined references' -e 'undefined on input line') == $file.log ]] && ((nbcompil < nbcompilmax)); do
-        pdflatex $directory/$file
         ((nbcompil++))
+        printf '\n\t' ; printf "PdfLaTeX run $nbcompil...\n\n"
+        pdflatex -interaction=batchmode -halt-on-error $directory/$file
     done
     printf '\n\t' ; printf $nbcompil ; printf ' compilations.\n\n'
     rm -f *.1 *.mp *.t1 &
