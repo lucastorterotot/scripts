@@ -2,7 +2,6 @@
 
 nbcompilmax=5
 for arg in "$@"; do
-    directory=$(dirname $arg)
     argnotex=${arg%.*}
     file=$(basename $argnotex)
     nbcompil=1
