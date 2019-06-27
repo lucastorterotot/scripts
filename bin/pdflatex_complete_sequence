@@ -7,28 +7,24 @@ for arg in "$@"; do
     nbcompil=1
     continue_workflow=1
     pdflatex -draftmode -interaction=batchmode -halt-on-error $argnotex || continue_workflow=0
-    if [[ $continue_workflow == 0 ]]
+    if [[ $continue_workflow == 1 ]]
     then
-        printf "\n\tPdfLaTeX failed at run $nbcompil.\n\tFile: $arg"
-        printf "\n\tLogs:\n\n"
-        grep ^\! $file.log -A 4
-        break
+        sleep 0.25
+        if [ -e $file.bcf ]
+        then
+            biber $file
+        elif [ -e $file-blx.bib ] && [ -e $file.aux ] 
+        then
+            bibtex $file.aux
+        fi &
+        if [ -e $file.idx ]
+        then
+            makeindex $file.idx
+        fi &
+        feynmp_compil &
+        wait
+        sleep 0.25
     fi
-    sleep 0.25
-    if [ -e $file.bcf ]
-    then
-        biber $file
-    elif [ -e $file-blx.bib ] && [ -e $file.aux ] 
-    then
-        bibtex $file.aux
-    fi &
-    if [ -e $file.idx ]
-    then
-        makeindex $file.idx
-    fi &
-    feynmp_compil &
-    wait
-    sleep 0.25
     while [[ $(grep -l $file.log -e 'Rerun to get cross-references right' -e 'undefined references' -e 'undefined on input line') == $file.log ]] && ((nbcompil < nbcompilmax)) && [[ $continue_workflow == 1 ]]; do
         ((nbcompil++))
         printf '\n\t' ; printf "PdfLaTeX run $nbcompil...\n\n"
