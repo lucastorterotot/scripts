@@ -9,7 +9,9 @@ for arg in "$@"; do
     pdflatex -draftmode -interaction=batchmode -halt-on-error $argnotex || continue_workflow=0
     if [[ $continue_workflow == 0 ]]
     then
-        printf "\n\tPdfLaTeX failed at run $nbcompil.\n\tFile: $arg\n\n"
+        printf "\n\tPdfLaTeX failed at run $nbcompil.\n\tFile: $arg"
+        printf "\n\tLogs:\n\n"
+        grep ^\! $file.log -A 4
         break
     fi
     sleep 0.25
@@ -34,7 +36,9 @@ for arg in "$@"; do
     done
     if [[ $continue_workflow == 0 ]]
     then
-        printf "\n\tPdfLaTeX failed at run $nbcompil.\n\tFile: $arg\n\n"
+        printf "\n\tPdfLaTeX failed at run $nbcompil.\n\tFile: $arg"
+        printf "\n\tLogs:\n\n"
+        grep ^\! $file.log -A 4
         break
     fi
     printf '\n\t' ; printf $nbcompil ; printf ' compilations.\n\n'
