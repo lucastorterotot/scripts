@@ -7,10 +7,10 @@ for arg in "$@"; do
     file=$(basename $argnotex)
     nbcompil=1
     continue_workflow=1
-    pdflatex -draftmode $directory/$file || continue_workflow=0
+    pdflatex -draftmode -interaction=batchmode -halt-on-error $argnotex || continue_workflow=0
     if [[ $continue_workflow == 0 ]]
     then
-        printf '\n\t' ; printf "PdfLaTeX failed at run $nbcompil.\n\n"
+        printf "\n\tPdfLaTeX failed at run $nbcompil.\n\tFile: $arg\n\n"
         break
     fi
     sleep 0.25
@@ -28,17 +28,14 @@ for arg in "$@"; do
     feynmp_compil &
     wait
     sleep 0.25
-    ((nbcompil++))
-    printf '\n\t' ; printf "PdfLaTeX run $nbcompil...\n\n"
-    pdflatex -interaction=batchmode -halt-on-error $directory/$file || continue_workflow=0
     while [[ $(grep -l $file.log -e 'Rerun to get cross-references right' -e 'undefined references' -e 'undefined on input line') == $file.log ]] && ((nbcompil < nbcompilmax)) && [[ $continue_workflow == 1 ]]; do
         ((nbcompil++))
         printf '\n\t' ; printf "PdfLaTeX run $nbcompil...\n\n"
-        pdflatex -interaction=batchmode -halt-on-error $directory/$file || continue_workflow=0
+        pdflatex -interaction=batchmode -halt-on-error $argnotex || continue_workflow=0
     done
     if [[ $continue_workflow == 0 ]]
     then
-        printf '\n\t' ; printf "PdfLaTeX failed at run $nbcompil.\n\n"
+        printf "\n\tPdfLaTeX failed at run $nbcompil.\n\tFile: $arg\n\n"
         break
     fi
     printf '\n\t' ; printf $nbcompil ; printf ' compilations.\n\n'
