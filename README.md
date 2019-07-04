@@ -1,5 +1,9 @@
 # Scripts
 
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/y/lucastorterotot/scripts.svg)](https://gitlab.com/lucastorterotot/scripts/commits)
+[![GitHub last commit](https://img.shields.io/github/last-commit/lucastorterotot/scripts.svg)](https://gitlab.com/lucastorterotot/scripts/commits)
+[![GitHub](https://img.shields.io/github/license/lucastorterotot/scripts.svg)](https://gitlab.com/lucastorterotot/scripts/blob/master/LICENSE)
+
 ## Introduction
 
 This repository contains some usefull scripts, especially for TeX compilations.
