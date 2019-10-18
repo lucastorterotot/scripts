@@ -30,10 +30,13 @@ fi
 
 for file in $files
 do
-    printf "$file\n"
-    if [[ $dry_run == 0 ]]
+    if [[ $(grep -l $file -e "$1") == $file ]]
     then
-        sed -i "s|$1|$2|g" $file
+        printf "$file\n"
+        if [[ $dry_run == 0 ]]
+        then
+            sed -i "s|$1|$2|g" $file
+        fi
     fi
 done
 
