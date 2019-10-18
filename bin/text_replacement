@@ -19,7 +19,7 @@ for arg in "$@"; do
     esac
 done
 
-printf "Looking for mathcing files...\n"
+printf "Looking for matching files...\n"
 
 if [[ $recursive == 0 ]]
 then
