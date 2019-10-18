@@ -1,0 +1,40 @@
+#!/bin/bash
+
+recursive=0
+dry_run=0
+for arg in "$@"; do
+    case "$arg" in
+        -r)
+            recursive=1
+            shift
+            ;;
+        -n)
+            dry_run=1
+            shift
+            ;;
+        --dry_run)
+            dry_run=1
+            shift
+            ;;
+    esac
+done
+
+printf "Looking for mathcing files...\n"
+
+if [[ $recursive == 0 ]]
+then
+    files=$(find $(pwd) -maxdepth 1 -type f -iname $3)
+else
+    files=$(find $(pwd) -type f -iname $3)
+fi
+
+for file in $files
+do
+    printf "$file\n"
+    if [[ $dry_run == 0 ]]
+    then
+        sed -i "s|$1|$2|g" $file
+    fi
+done
+
+
