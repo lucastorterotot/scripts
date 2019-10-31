@@ -44,7 +44,7 @@ do
         printf "$file\n"
         if [[ $dry_run == 0 ]]
         then
-            timestamp=$(date -R -r $file)
+            timestamp=$(date --rfc-3339=ns -r $file)
             sed -i "s|$1|$2|g" $file
             if [[ $preserve_timestamps == 1 ]]
             then

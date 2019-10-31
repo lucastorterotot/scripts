@@ -4,7 +4,7 @@ echo 'Corrections on pgf files:'
 echo ' '
 dirstart=$(pwd)
 for file in $(grep --include="*-pyplot.pgf" -rlHm1 'pgfimage.*{.*pyplot-img.*png}') ; do
-    timestamp=$(date -R -r $file)
+    timestamp=$(date --rfc-3339=ns -r $file)
     cd $(dirname $file)
     directory=$(pwd)
     cd $dirstart
