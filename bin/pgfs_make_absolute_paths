@@ -4,9 +4,9 @@ echo 'Corrections on pgf files:'
 echo ' '
 dirstart=$(pwd)
 for file in $(grep --include="*-pyplot.pgf" -rlHm1 'pgfimage.*{.*pyplot-img.*png}') ; do
+    timestamp=$(date -R -r $file)
     cd $(dirname $file)
     directory=$(pwd)
-    timestamp=$(date -R -r $file)
     cd $dirstart
     for oldstring in $(grep -h 'pgfimage.*{.*pyplot-img.*png}' $file | grep -o {.*.png | grep -o ]{.*.png | grep -o {.*.png | grep -v '/' ) ; do
         pgffilename=${oldstring//\{}
