@@ -18,6 +18,7 @@ find . -type f -iname \*.idx -delete &
 find . -type f -iname \*.ilg -delete &
 find . -type f -iname \*.ind -delete &
 find . -type f -iname \*.cpt -delete &
+find . -type f -regex .*mtc[0-9]* -delete &
 # find . -type f -iname \*.log -delete &
 # find . -type f -iname \*.blg -delete &
 wait

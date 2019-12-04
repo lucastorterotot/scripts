@@ -56,6 +56,7 @@ for arg in "$@"; do
         rm -f *.1 *.mp *.t1 &
         rm -f $file.aux $file.out $file.toc $file.lof $file.nav $file.snm $file.synctex.gz $file.maf $file.mtc $file.ptc $file.bcf $file.bbl $file.run.xml $file-blx.bib $file.idx $file.ilg $file.ind &
         rm -f $file-*.cpt &
+        rm -f $file.mtc* &
     fi
     wait
 done
