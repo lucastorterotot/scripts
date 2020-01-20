@@ -30,7 +30,9 @@ for arg in "$@"; do
         then
             makeindex $file.idx
         fi &
-        feynmp_compil &
+        for file in $(find . -maxdepth 1 -type f -iname \*.mp) ; do
+            mpost $file &
+        done
         wait
         sleep 0.25
     fi
