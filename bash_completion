@@ -10,6 +10,7 @@ _install_xspec()
 }
 
 _install_xspec '!*.tex' pdflatex_complete_sequence
+_install_xspec '!*.tex' feynmp_compil
 _install_xspec '!*.@(vmd|xyz|pdb|cml|mol|mol2|gzmat|gamin)' vmd_compil
 
 unset -f _install_xspec

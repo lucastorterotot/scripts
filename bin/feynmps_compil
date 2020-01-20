@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Running feynmp"
+echo ' '
+
+for file in $(grep -rl begin.*fmffile | grep -ve feynmp_file_compil);
+do
+    feynmp_compil $file
+done

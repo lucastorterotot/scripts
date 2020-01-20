@@ -1,5 +1,46 @@
 #!/bin/bash
 
-for file in $(find . -maxdepth 1 -type f -iname \*.mp) ; do
-    mpost $file
+do_all=0
+for arg in "$@"; do
+    case "$arg" in
+        -a)
+            do_all=1
+            shift
+            ;;
+        --all)
+            do_all=1
+            shift
+            ;;
+    esac
+done
+
+if [[ $do_all == 1 ]]
+then
+    files=$(grep -rlm1 fmffile | grep -ve feynmp_file_compil)
+else
+    files=''
+fi
+
+for file in "$@"
+do
+    if [[ $(grep -l begin.*fmffile $file) == $file ]]
+    then
+        if ! [[ $files == *$file* ]]
+        then
+            files=$files' '$file
+        fi
+    fi
+done  
+
+for file in $files;
+do
+    name=$(grep begin $file | grep fmffile | grep -o 'fmffile}{.*')
+    name=${name:9}
+    name=${name%\}*}
+    cp $lt_scripts_dir/tex_files/fmf_compiler.tex tmpfig-$name.tex
+    text_replacement XXX $file tmpfig-$name.tex
+    pdflatex_complete_sequence tmpfig-$name.tex
+    mv tmpfig-$name.log $name.log
+    mv tmpfig-$name.pdf $name.pdf
+    rm tmpfig-$name.*
 done
