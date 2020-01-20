@@ -30,17 +30,21 @@ do
             files=$files' '$file
         fi
     fi
-done  
+done
+
+dirstart=$(pwd)
 
 for file in $files;
 do
-    name=$(grep begin $file | grep fmffile | grep -o 'fmffile}{.*')
+    cd $(dirname $file)
+    name=$(grep begin $(basename $file) | grep fmffile | grep -o 'fmffile}{.*')
     name=${name:9}
     name=${name%\}*}
     cp $lt_scripts_dir/tex_files/fmf_compiler.tex tmpfig-$name.tex
-    text_replacement XXX $file tmpfig-$name.tex
+    text_replacement XXX $(basename $file) tmpfig-$name.tex
     pdflatex_complete_sequence tmpfig-$name.tex
     mv tmpfig-$name.log $name.log
     mv tmpfig-$name.pdf $name.pdf
     rm tmpfig-$name.*
+    cd $dirstart
 done
