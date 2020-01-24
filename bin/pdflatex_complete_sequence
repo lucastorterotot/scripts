@@ -30,8 +30,8 @@ for arg in "$@"; do
         then
             makeindex $file.idx
         fi &
-        for file in $(find . -maxdepth 1 -type f -iname \*.mp) ; do
-            mpost $file &
+        for mpfile in $(find . -maxdepth 1 -type f -iname \*.mp) ; do
+            mpost $mpfile &
         done
         wait
         sleep 0.25
