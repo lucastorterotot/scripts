@@ -1,19 +1,28 @@
 #!/bin/bash
 
+# set the resolution used for images
 vmdresolution=1024
 
+# currently only xyz format is supported
+# for direct compilation with colors
+# and mol2 to account for multiple bonds
+# but some other formats can be converted
+# on the fly, here are they
 ext_to_convert_mol2="cml mol"
 ext_to_convert_xyz="mol2 gzmat gamin"
 
+# args are all files that you want to compil
 for arg in "$@"; do
-    directory=$(dirname $arg)
-    argnoext=${arg%.*}
-    file=$(basename $argnoext)
-    extension=${arg#$argnoext.}
+    directory=$(dirname $arg) # the place were the file is
+    argnoext=${arg%.*} # remove the extension to get only name
+    file=$(basename $argnoext) # the file name without extension
+    extension=${arg#$argnoext.} # the extension of the file
     extension_to_use=$extension
-    
+
+    # use a temporary vmd script to process the file
     tmp_script_name='tmp_vmd_script_for_'$file'.vmd'
 
+    # proceed with converting accepted formats to working formats
     if [[ $ext_to_convert_mol2 == *$extension* ]]; then
         babel $arg $argnoext.mol2
         babel $arg $argnoext.xyz
@@ -23,12 +32,15 @@ for arg in "$@"; do
         extension_to_use="xyz"
     fi
 
+    # if a vmd script with the same name as the file exists, then use it
+    # note that if arg is a vmd script then it is directly used
     if [ -e $argnoext.vmd ]; then
         cat $argnoext.vmd > $tmp_script_name
     elif [ -e $argnoext.$extension_to_use ]; then
-        cat $lt_scripts_dir/vmd_files/visualization_state_to_use.vmd > $tmp_script_name
-        oldxyzfile=$(grep -h 'mol new .*xyz' $tmp_script_name | grep -o '.* type' | grep -o '.*xyz' | grep -o '/.*')
+        cat $lt_scripts_dir/vmd_files/visualization_state_to_use.vmd > $tmp_script_name # use the default script provided
+        oldxyzfile=$(grep -h 'mol new .*xyz' $tmp_script_name | grep -o '.* type' | grep -o '.*xyz' | grep -o '/.*') # update the default script
         currentdir=$(pwd) ; cd $directory ; newxyzfile=$(pwd) ; cd $currentdir
+        # define the xyz file to use for compilation and update the default script
         newxyzfile=$newxyzfile'/'$file'.'$extension_to_use
         sed -i "s|$oldxyzfile|$newxyzfile|g" $tmp_script_name
         oldxyzfile=$(basename $oldxyzfile) ; newxyzfile=$(basename $newxyzfile)
@@ -36,32 +48,42 @@ for arg in "$@"; do
         sed -i "s|xyz|$extension_to_use|g" $tmp_script_name
     fi
 
+    # if mol2 file exists and is then to be used for multiple bonds
+    # then also add the multiple bonds module provided to draw them
     if [ -e $argnoext.mol2 ]; then
         # sed -i "s|autobonds 1|autobonds 0|g" $tmp_script_name
         echo "mol new $argnoext.mol2 type mol2 first 0 last -1 step 1 filebonds 1 autobonds 1 waitfor all" >> $tmp_script_name
         cat $lt_scripts_dir/vmd_files/mol2_files_addition_for_multiple_bonds.txt >> $tmp_script_name
     fi
-    
+
+    # if a common-vmdsuffix.txt exists in the file to process directory
+    # for example to rotate all molecules in the directory the exact same way
+    # add it to the end of the vmd temporary script in order to take it into account
     if [ -e $directory/common-vmdsuffix.txt ]; then
         cat $directory/common-vmdsuffix.txt >> $tmp_script_name
-    elif [ -e $directory/$file-vmdsuffix.txt ]; then
+    elif [ -e $directory/$file-vmdsuffix.txt ]; then # the same but only for the current file
         cat $directory/$file-vmdsuffix.txt >> $tmp_script_name
     fi
-    
+
+    # find the render to use
     if [ -e ~/VMD_1_9_3/usr/local/lib/vmd/tachyon_LINUXAMD64 ]; then
         render='~/VMD_1_9_3/usr/local/lib/vmd/tachyon_LINUXAMD64'
     else
         render='/usr/local/lib/vmd/tachyon_LINUXAMD64'
     fi
-    
+
+    # ass the compilation line at the end of the temporary vmd script
     echo 'render Tachyon vmdscene "'$render'" -aasamples 12 %s -format TARGA -o %s.tga -res '$vmdresolution' '$vmdresolution >> $tmp_script_name
-    
+
+    # proceed with vmd
     vmd -dispdev none -eofexit < $tmp_script_name
-    
+
+    # convert the tga output into a png file and remove temporary files
     convert vmdscene.tga $file'-vmdrender.png'
     rm vmdscene* &
     rm $tmp_script_name &
 
+    # remove eventual converted files
     if [[ $ext_to_convert_mol2 == *$extension* ]]; then
         rm $argnoext.mol2 $argnoext.xyz
     elif [[ $ext_to_convert_xyz == *$extension* ]]; then
