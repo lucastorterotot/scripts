@@ -1,6 +1,7 @@
 #!/bin/bash
 
 echo 'Corrections on pgf files:'
+# when a pgf file uses an other file, make sure that the absolute path is given
 echo ' '
 dirstart=$(pwd)
 for file in $(grep --include="*-pyplot.pgf" -rlHm1 'pgfimage.*{.*pyplot-img.*png}') ; do

@@ -1,5 +1,8 @@
 # -*- shell-script -*-
 
+# this script allows provided commands to have auto-completion:
+# by using tab, only some possibilities will be available
+
 _install_xspec()
 {
     local xspec=$1 cmd

@@ -14,6 +14,7 @@ for arg in "$@"; do
     esac
 done
 
+# if do_all is true, then find all fmfile in subdirectories and process them
 if [[ $do_all == 1 ]]
 then
     files=$(grep -rlm1 fmffile | grep -ve feynmp_file_compil)
@@ -21,6 +22,7 @@ else
     files=''
 fi
 
+# process all files given as arguments
 for file in "$@"
 do
     if [[ $(grep -l begin.*fmffile $file) == $file ]]
@@ -34,15 +36,22 @@ done
 
 dirstart=$(pwd)
 
+# loop over files to process
 for file in $files;
 do
+    # move to the file's directory
     cd $(dirname $file)
+    # determine the name of the output
     name=$(grep begin $(basename $file) | grep fmffile | grep -o 'fmffile}{.*')
     name=${name:9}
     name=${name%\}*}
+    # get the base file to compil
     cp $lt_scripts_dir/tex_files/fmf_compiler.tex tmpfig-$name.tex
+    # modify it to run on the seleted file
     text_replacement XXX $(basename $file) tmpfig-$name.tex
+    # process pdflatex on the compilation file
     pdflatex_complete_sequence tmpfig-$name.tex
+    # move file to the output and remove useless files
     mv tmpfig-$name.log $name.log
     mv tmpfig-$name.pdf $name.pdf
     rm tmpfig-$name.*

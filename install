@@ -4,9 +4,11 @@ name="lucastorterotot scripts"
 
 echo "Installing $name..."
 
+# find where this repository is placed by getting this file's directory
 instal_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 bin_dir=$instal_dir/bin/
+# check if this seems to be already installed, in this case do nothing
 if [[ $PATH = *$bin_dir* ]] || [[ $(grep -l "$name" ~/.bashrc) = ~/.bashrc ]]
 then
     echo 'It seems like you already have installed this!'
@@ -16,6 +18,7 @@ else
     then
         instal_dir=~${instal_dir#$HOME}
     fi
+    # add the bashrc extension corresponding to this repository to your own bashrc
     echo "" >> ~/.bashrc
     echo "# --- add $name ---" >> ~/.bashrc
     echo ". $instal_dir/bashrc_ext" >> ~/.bashrc

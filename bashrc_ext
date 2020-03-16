@@ -1,7 +1,13 @@
 #!/bin/bash
 
+# find where this repository is placed by getting this file's directory
 instal_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+# add the bin directory to the current path
 export PATH=$instal_dir/bin/:$PATH
+
+# add bash auto-completion module
 . $instal_dir/bash_completion
+
+# save the repository directory, variable used in some scripts
 export lt_scripts_dir=$instal_dir

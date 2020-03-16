@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Look in all log files if there is an error or warning message identified as being of interest
+
 echo ''
 echo 'Checking LaTeX log files ...'
 echo ''
