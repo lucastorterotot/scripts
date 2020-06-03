@@ -24,11 +24,11 @@ for arg in "$@"; do
 
     # proceed with converting accepted formats to working formats
     if [[ $ext_to_convert_mol2 == *$extension* ]]; then
-        babel $arg $argnoext.mol2
-        babel $arg $argnoext.xyz
+        obabel $arg -O $argnoext.mol2
+        obabel $arg -O $argnoext.xyz
         extension_to_use="xyz"
     elif [[ $ext_to_convert_xyz == *$extension* ]]; then
-        babel $arg $argnoext.xyz
+        obabel $arg -O $argnoext.xyz
         extension_to_use="xyz"
     fi
 
