@@ -1,0 +1,3 @@
+#!/bin/bash
+
+latex_engine_complete_sequence -lua $@
