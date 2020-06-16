@@ -52,8 +52,8 @@ do
     # process pdflatex on the compilation file
     pdflatex_complete_sequence tmpfig-$name.tex
     # move file to the output and remove useless files
-    mv tmpfig-$name.log $name.log
-    mv tmpfig-$name.pdf $name.pdf
+    mv tmpfig-$name.log ${name}-feynmp.log
+    mv tmpfig-$name.pdf ${name}-feynmp.pdf
     rm tmpfig-$name.*
     cd $dirstart
 done
