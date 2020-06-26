@@ -72,7 +72,7 @@ for arg in "$@"; do
         render='/usr/local/lib/vmd/tachyon_LINUXAMD64'
     fi
 
-    # ass the compilation line at the end of the temporary vmd script
+    # add the compilation line at the end of the temporary vmd script
     echo 'render Tachyon vmdscene "'$render'" -aasamples 12 %s -format TARGA -o %s.tga -res '$vmdresolution' '$vmdresolution >> $tmp_script_name
 
     # proceed with vmd
