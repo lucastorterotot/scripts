@@ -1,25 +1,23 @@
 #!/bin/bash
 
-find . -type f -iname \*.aux -delete
-find . -type f -iname \*.out -delete &
-find . -type f -iname \*.toc -delete &
-find . -type f -iname \*.lof -delete &
-find . -type f -iname \*.lot -delete &
-find . -type f -iname \*.mw -delete &
-find . -type f -iname \*.nav -delete &
-find . -type f -iname \*.snm -delete &
-find . -type f -iname \*.synctex.gz -delete &
-find . -type f -iname \*.maf -delete &
-find . -type f -regex .*mtc[0-9]* -delete &
-find . -type f -iname \*.ptc -delete &
-find . -type f -iname \*.bcf -delete &
-find . -type f -iname \*.bbl -delete &
-find . -type f -iname \*.run.xml -delete &
-find . -type f -iname \*-blx.bib -delete &
-find . -type f -iname \*.idx -delete &
-find . -type f -iname \*.ilg -delete &
-find . -type f -iname \*.ind -delete &
-find . -type f -iname \*.cpt -delete &
-# find . -type f -iname \*.log -delete &
-# find . -type f -iname \*.blg -delete &
+for ext in aux out toc lof lot mw nav snm synctex.gz maf ptc bcf bbl run.xml idx ilg ind cpt
+do
+    (
+        for f in $(find . -type f -iname \*.$ext | grep -ve /.git/)
+        do
+            rm $f
+        done
+    )&
+done
+
+for f in $(find . -type f -regex .*mtc[0-9]* | grep -ve /.git/)
+do
+    rm $f
+done &
+
+for f in $(find . -type f -iname \*-blx.bib | grep -ve /.git/)
+do
+    rm $f
+done &
+
 wait

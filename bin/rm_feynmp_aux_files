@@ -1,7 +1,12 @@
 #!/bin/bash
 
-find . -type f -iname \*.1 -delete
-find . -type f -iname \*.mp -delete &
-find . -type f -iname \*.t1 -delete &
-#find . -type f -iname \*.log -delete &
+for ext in 1 mp t1
+do
+    (
+        for f in $(find . -type f -iname \*.$ext | grep -ve /.git/)
+        do
+            rm $f
+        done
+    )&
+done
 wait

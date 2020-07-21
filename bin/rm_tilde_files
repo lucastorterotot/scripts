@@ -1,7 +1,13 @@
 #!/bin/bash
 
-find . -type f -iname \*~ -delete &
-find . -type f -iname \#*\# -delete &
-find . -type f -iname .~\* -delete &
-find . -type f -iname .\#\* -delete &
+for string in \*~ \#*\# .~\* .\#\* 
+do
+    (
+        for f in $(find . -type f -iname $string | grep -ve /.git/)
+        do
+            rm $f
+        done
+    )&
+done
+
 wait
