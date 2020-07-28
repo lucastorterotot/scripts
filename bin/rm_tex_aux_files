@@ -20,4 +20,9 @@ do
     rm $f
 done &
 
+for f in $(find . -type d -name _minted-\* | grep -ve /.git/)
+do
+    rm -r $f
+done &
+
 wait
