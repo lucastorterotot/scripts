@@ -80,17 +80,16 @@ for arg in "$@"; do
 
     # convert the tga output into a png file and remove temporary files
     convert vmdscene.tga $file'-vmdrender.png'
-    rm vmdscene* &
-    rm $tmp_script_name &
+    rm vmdscene*
+    rm $tmp_script_name
 
     # remove eventual converted files
     if [[ $ext_to_convert_mol2 == *$extension* ]]; then
         rm $argnoext.mol2 $argnoext.xyz
     elif [[ $ext_to_convert_xyz == *$extension* ]]; then
         rm $argnoext.xyz
-    fi &
+    fi
     
-    wait
 done
 
     
