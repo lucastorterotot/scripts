@@ -13,9 +13,17 @@ This repository contains some usefull scripts, especially for TeX compilations.
 
 ## Installation
 1. Go in a directory where you want to install this repository and clone it:
+
+- by `ssh` if you have a key:
 ```
 git clone git@gitlab.com:lucastorterotot/scripts.git --origin lucas
 ```
+
+- else by `https`:
+```
+git clone https://gitlab.com/lucastorterotot/scripts.git --origin lucas
+```
+
 2. Run the provided installation script:
 ```
 ./scripts/install
