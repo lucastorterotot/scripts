@@ -5,6 +5,11 @@ echo "Running python files, default version is:"
 python -V
 echo ' '
 
+# Ensure non multithreads for Dask
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+
 for file in $(find $(pwd) -type f -name fichier.py)
 do
     echo $file
