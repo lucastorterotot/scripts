@@ -1,0 +1,48 @@
+#!/bin/bash
+
+silent=0
+for arg in "$@"; do
+    case "$arg" in
+        -s)
+            silent=1
+            shift
+            ;;
+    esac
+done
+
+cd $1
+location=$(pwd)
+
+OK=0
+for explorer in "explorer.exe" "nautilus"
+do
+    if [[ ${silent} == 0 ]]
+    then
+        echo "Opening ${location} with ${explorer}..."
+    fi
+    if [[ ${explorer} == "explorer.exe" ]]
+    then
+        if [[ ${location} == /mnt/c* ]]
+        then
+            cmd.exe /c start "" . && OK=1
+        else
+            cmd.exe /c start "" "\\\\wsl.localhost\Ubuntu"\\$(pwd) > /dev/null 2>&1 && OK=1
+        fi
+    else
+        ${explorer} . && OK=1
+    fi
+    if [[ ${OK} == 0 ]]
+    then
+        if [[ ${silent} == 0 ]]
+        then
+            echo "Failed"
+        fi
+    else
+        break
+    fi
+done
+
+if [[ ${OK} == 0 ]]
+then
+    echo "Sorry, no solution found to open ${location}"
+fi
