@@ -17,3 +17,17 @@ for file in $(grep --include="*-pyplot.pgf" -rlHm1 'pgfimage.*{.*pyplot-img.*png
     done
     echo ' '
 done
+for file in $(grep --include="*-pyplot.pgf" -rlHm1 'pgftext.*includegraphics.*{.*pyplot-img.*png}') ; do
+    timestamp=$(date --rfc-3339=ns -r $file)
+    cd $(dirname $file)
+    directory=$(pwd)
+    cd $dirstart
+    for oldstring in $(grep -h 'pgftext.*includegraphics.*{.*pyplot-img.*png}' $file | grep -o {.*.png | grep -o ]{.*.png | grep -o {.*.png | grep -v '/' ) ; do
+        echo ${oldstring}
+        pgffilename=${oldstring//\{}
+        echo '  '$directory'/'$pgffilename
+        sed -i "s|$pgffilename|$directory/$pgffilename|g" $file
+        touch -d "$timestamp" $file
+    done
+    echo ' '
+done
