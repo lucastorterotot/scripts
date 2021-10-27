@@ -1,0 +1,43 @@
+#!/bin/bash
+
+silent=0
+iter_max=5
+pause="1s"
+for arg in "$@"; do
+    case "$arg" in
+        -s)
+            silent=1
+            shift
+            ;;
+        -i)
+            iter_max="$OPTARG"
+            shift
+            shift
+            ;;
+        -p)
+            pause="$OPTARG"
+            shift
+            shift
+            ;;
+    esac
+done
+
+for arg in "$@"
+do
+    (iter=0
+    DONE=0
+    while ((iter < iter_max)) && [[ $DONE != 1 ]]
+    do
+        ((iter++))
+        if ((iter > 0))
+        then
+            sleep ${pause}
+        fi
+        rm -rf ${arg} && DONE=1 || DONE=0
+        if [[ $DONE != 1 ]] && [[ ${silent} != 1 ]]
+        then
+            echo "Retry to rm ${arg} in ${pause}..."
+        fi
+    done) &
+done
+wait
