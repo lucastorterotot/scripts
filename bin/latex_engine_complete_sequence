@@ -78,5 +78,6 @@ for arg in "$@"; do
         _lt_rmrf_for_windows_dropbox -s $file.mtc* &
         _lt_rmrf_for_windows_dropbox -s _minted-$file &
     fi
+    ([ -s liste-exos_de_cours.tex ] && (sed -i "s|^input|\\\input|g" liste-exos_de_cours.tex ; sed -i "s|$enseignement_db/|\\\eDBdir|g" liste-exos_de_cours.tex ; sed -i "s|$HOME|\\\homedir|g" liste-exos_de_cours.tex) || _lt_rmrf_for_windows_dropbox liste-exos_de_cours.tex) &
     wait
 done
