@@ -25,6 +25,6 @@ do
     rm -r $f
 done &
 
-([ -s liste-exos_de_cours.tex ] || rm liste-exos_de_cours.tex) &
+([ -s liste-exos_de_cours.tex ] || rm -f liste-exos_de_cours.tex) &
 
 wait
