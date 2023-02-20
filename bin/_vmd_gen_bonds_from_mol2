@@ -121,7 +121,7 @@ class Atom():
         infos = l.split(" ")
         infos.remove("")
         self.id = int(infos[0])
-        self.element = infos[1]
+        self.element = infos[5].split(".")[0]
         self.x = float(infos[2])
         self.y = float(infos[3])
         self.z = float(infos[4])
