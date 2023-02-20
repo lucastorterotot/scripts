@@ -1,6 +1,7 @@
+mol new XXxyzforbondsXX.xyz type xyz first 0 last -1 step 1 filebonds 1 autobonds 1 waitfor all
 mol addrep 1
 mol representation Bonds 0.074999 30.000000
-mol color ColorID 8
+mol color Element
 mol selection {all}
-mol material BlownGlass
+mol material EdgyShiny
 mol addrep top

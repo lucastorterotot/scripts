@@ -1,0 +1,246 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+# import modules
+import os
+
+import numpy as np
+import scipy as sc
+
+from argparse import ArgumentParser
+# define script options
+usage = "usage: prog [options] --source <file.mol2> --target <script.vmd>"
+parser = ArgumentParser(usage=usage)
+parser.add_argument("-s", "--source",
+                    dest = "source",
+                    default = None,
+                    help = "Initial file, mol2 format"
+                   )
+parser.add_argument("-t", "--target",
+                  dest = "target",
+                  default=None,
+                  help = "VMD file to ass lines in"
+                 )
+parser.add_argument("-f", "--format",
+                  dest = "format",
+                  default="xyz",
+                  help = "Format for additionnal files for bonds"
+                 )
+parser.add_argument("-p", "--prefix",
+                  dest = "prefix",
+                  default="tmp_for_bonds",
+                  help = "Prefix to handle additionnal files for bonds"
+                 )
+parser.add_argument("-d", "--distance",
+                  dest = "distance",
+                  default="0.1",
+                  help = "Distance between multiple bonds cylinders, default = 0.1 pm"
+                 )
+parser.add_argument("-v", "--vector",
+                  dest = "vector",
+                  default="001",
+                  help = "xyz coordinates for vector orthogonal to displacement plane"
+                 )
+
+args = parser.parse_args()
+
+place = os.popen('pwd').readlines()[0][:-1]
+
+class mol2_file():
+    def __init__(self, file_string):
+        f = file_string
+        if f[:2] == './':
+            f = '/'.join([place, f[1:]]).replace('//', '/')
+        if not f[0] == '/':
+            f = '/'.join([place, f]).replace('//', '/')
+        if '../' in f:
+            f_sequences = f.split('/../')
+            new_f_sequences = []
+            for s in f_sequences:
+                new_f_sequences += s.split('/')[:-1]
+            new_f_sequences +=[f_sequences[-1].split('/')[-1]]
+            f = '/'.join(new_f_sequences)
+
+        self.file = f
+        self.name = f.split('/')[-1].split('.')[0]
+        self.N_atoms = 0
+        self.atoms = {}
+        self.N_bonds = 0
+        self.bonds = {}
+
+    def get_infos(self):
+        mode = "base"
+        for k,l in enumerate(os.popen("cat {}".format(self.file)).readlines()):
+            if k < 2:
+                continue
+            l = l[:-1]
+            if k == 2:
+                infos = l.split(" ")
+                infos.remove("")
+                self.N_atoms = infos[0]
+                self.N_bonds = infos[1]
+                continue
+            if l == "@<TRIPOS>ATOM":
+                mode = "atom"
+                continue
+            elif l == "@<TRIPOS>BOND":
+                mode = "bond"
+                continue
+            if mode not in ["atom", "bond"]:
+                continue
+            elif mode == "atom":
+                atom = Atom(l)
+                self.atoms[atom.id] = atom
+            elif mode == "bond":
+                bond = Bond(l, atoms = self.atoms)
+                self.bonds[bond.id] = bond
+
+class Vector():
+    def __init__(self, x=0, y=0, z=0):
+        self.x = float(x)
+        self.y = float(y)
+        self.z = float(z)
+
+    def set_from_AB(self, A, B):
+        self.x = B.x - A.x
+        self.y = B.y - A.y
+        self.z = B.z - A.z
+
+    def set_from_vectorial_prod(self, A, B):
+        self.x = A.y*B.z - A.z*B.y
+        self.y = A.z*B.x - A.x*B.z
+        self.z = A.x*B.y - A.y*B.x
+        
+    def set_norm(self, norm):
+        current = (self.x**2 + self.y**2 + self.z**2)**.5
+        self.x *= norm/current
+        self.y *= norm/current
+        self.z *= norm/current
+
+class Atom():
+    def __init__(self, l):
+        self.line = l
+        while "  " in l:
+            l = l.replace("  ", " ")
+        infos = l.split(" ")
+        infos.remove("")
+        self.id = int(infos[0])
+        self.element = infos[1]
+        self.x = float(infos[2])
+        self.y = float(infos[3])
+        self.z = float(infos[4])
+
+class Local_Atom():
+    def __init__(self, atom):
+        self.element = atom.element
+        self.x = atom.x
+        self.y = atom.y
+        self.z = atom.z
+
+class Bond():
+    def __init__(self, l, atoms = {}):
+        self.line = l
+        while "  " in l:
+            l = l.replace("  ", " ")
+        infos = l.split(" ")
+        infos.remove("")
+        self.id = int(infos[0])
+        self.A = atoms[int(infos[1])]
+        self.B = atoms[int(infos[2])]
+        self.N = int(infos[3])
+
+class Local_Bond():
+    def __init__(self, atomA, atomB, N = 1):
+        self.A = atomA
+        self.B = atomB
+        self.N = N
+
+ref_vector = args.vector
+ref_vector = Vector(ref_vector[0], ref_vector[1], ref_vector[2])
+
+ref_distance = float(args.distance)
+
+xsource = mol2_file(args.source)
+xsource.get_infos()
+
+def save_bond_as_xyz(bond, num = 0):
+    output = "{}-{}-{}.{}".format(
+        args.prefix,
+        xsource.name,
+        saved_bonds,
+        args.format
+    )
+    os.system("echo 2 > {}".format(output))
+    os.system("echo '' >> {}".format(output))
+    for a in [bond.A, bond.B]:
+        os.system(
+            'echo "{} {} {} {}" >> {}'.format(
+                a.element,
+                a.x,
+                a.y,
+                a.z,
+                output
+            )
+        )
+    os.system(
+        "cat {} >> {}".format(
+            "$lt_scripts_dir/vmd_files/mol2_files_addition_for_multiple_bonds.txt",
+            args.target
+        )
+    )
+    os.system('sed -i "s|XXxyzforbondsXX.xyz|{}|g" {}'.format(output, args.target))
+
+saved_bonds = 0
+for bond in xsource.bonds.values():
+    N = bond.N
+    if N == 1:
+        save_bond_as_xyz(bond, num = saved_bonds)
+        saved_bonds += 1
+    elif N == 2: # if double bond, duplicate and move atoms
+        atomA = bond.A
+        atomB = bond.B
+        bond_dir = Vector() # bond direction
+        atom_dis = Vector() # atom displacement
+        bond_dir.set_from_AB(atomA, atomB)
+        atom_dis.set_from_vectorial_prod(bond_dir, ref_vector)
+        atom_dis.set_norm(ref_distance)
+        for f in [1, -1]:
+            l_atomA = Local_Atom(atomA)
+            l_atomA.x += f*atom_dis.x
+            l_atomA.y += f*atom_dis.y
+            l_atomA.z += f*atom_dis.z
+            l_atomB = Local_Atom(atomB)
+            l_atomB.x += f*atom_dis.x
+            l_atomB.y += f*atom_dis.y
+            l_atomB.z += f*atom_dis.z
+            l_bond = Local_Bond(l_atomA, l_atomB, N = 1)
+            save_bond_as_xyz(l_bond, num = saved_bonds)
+            saved_bonds += 1
+    elif N == 3: # if double bond, duplicate and move atoms
+        atomA = bond.A
+        atomB = bond.B
+        bond_dir = Vector() # bond direction
+        atom_dis1 = Vector() # atom displacement
+        atom_dis2 = Vector() # atom displacement
+        bond_dir.set_from_AB(atomA, atomB)
+        atom_dis1.set_from_vectorial_prod(bond_dir, ref_vector)
+        atom_dis1.set_norm(ref_distance*1.2)
+        atom_dis2.set_from_vectorial_prod(bond_dir, atom_dis1)
+        atom_dis2.x *= atom_dis2.z # ensure z is positive
+        atom_dis2.y *= atom_dis2.z # ensure z is positive
+        atom_dis2.z *= atom_dis2.z # ensure z is positive
+        atom_dis2.set_norm(ref_distance*1.5)
+        for fs in [[1,0], [-1/2, 3**.5/2], [-1/2, -3**.5/2]]:
+            f1 = fs[1]
+            f2 = fs[0]
+            l_atomA = Local_Atom(atomA)
+            l_atomA.x += f1*atom_dis1.x + f2*atom_dis2.x
+            l_atomA.y += f1*atom_dis1.y + f2*atom_dis2.y
+            l_atomA.z += f1*atom_dis1.z + f2*atom_dis2.z
+            l_atomB = Local_Atom(atomB)
+            l_atomB.x += f1*atom_dis1.x + f2*atom_dis2.x
+            l_atomB.y += f1*atom_dis1.y + f2*atom_dis2.y
+            l_atomB.z += f1*atom_dis1.z + f2*atom_dis2.z
+            l_bond = Local_Bond(l_atomA, l_atomB, N = 1)
+            save_bond_as_xyz(l_bond, num = saved_bonds)
+            saved_bonds += 1
