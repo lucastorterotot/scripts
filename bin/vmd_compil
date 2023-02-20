@@ -92,6 +92,7 @@ for arg in "$@"; do
     # remove eventual converted files
     if [[ $ext_to_convert_mol2 == *$extension* ]]; then
         rm $argnoext.mol2 $argnoext.xyz
+        rm ${tmp_for_bonds_prefix}-$(basename $argnoext)-[0-9]*.xyz
     elif [[ $ext_to_convert_xyz == *$extension* ]]; then
         rm $argnoext.xyz
         rm ${tmp_for_bonds_prefix}-$(basename $argnoext)-[0-9]*.xyz
