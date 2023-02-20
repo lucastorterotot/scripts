@@ -63,9 +63,7 @@ class mol2_file():
 
         self.file = f
         self.name = f.split('/')[-1].split('.')[0]
-        self.N_atoms = 0
         self.atoms = {}
-        self.N_bonds = 0
         self.bonds = {}
 
     def get_infos(self):
@@ -77,8 +75,6 @@ class mol2_file():
             if k == 2:
                 infos = l.split(" ")
                 infos.remove("")
-                self.N_atoms = infos[0]
-                self.N_bonds = infos[1]
                 continue
             if l == "@<TRIPOS>ATOM":
                 mode = "atom"
