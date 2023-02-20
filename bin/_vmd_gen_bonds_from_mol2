@@ -153,6 +153,10 @@ class Local_Bond():
 
 ref_vector = args.vector
 ref_vector = Vector(ref_vector[0], ref_vector[1], ref_vector[2])
+ref_vectorx= Vector(1, 0, 0)
+ref_vectory= Vector(0, 1, 0)
+ref_vectorz= Vector(0, 0, 1)
+ref_vectors = [ref_vector, ref_vectorx, ref_vectory, ref_vectorz]
 
 ref_distance = float(args.distance)
 
@@ -198,7 +202,10 @@ for bond in xsource.bonds.values():
         bond_dir = Vector() # bond direction
         atom_dis = Vector() # atom displacement
         bond_dir.set_from_AB(atomA, atomB)
-        atom_dis.set_from_vectorial_prod(bond_dir, ref_vector)
+        k = 0
+        while atom_dis.x == 0 and atom_dis.y == 0 and atom_dis.z == 0:
+            atom_dis.set_from_vectorial_prod(bond_dir, ref_vectors[k])
+            k+=1
         atom_dis.set_norm(ref_distance)
         for f in [1, -1]:
             l_atomA = Local_Atom(atomA)
@@ -219,12 +226,16 @@ for bond in xsource.bonds.values():
         atom_dis1 = Vector() # atom displacement
         atom_dis2 = Vector() # atom displacement
         bond_dir.set_from_AB(atomA, atomB)
-        atom_dis1.set_from_vectorial_prod(bond_dir, ref_vector)
+        k = 0
+        while atom_dis1.x == 0 and atom_dis1.y == 0 and atom_dis1.z == 0:
+            atom_dis1.set_from_vectorial_prod(bond_dir, ref_vectors[k])
+            k+=1
         atom_dis1.set_norm(ref_distance*1.5)
         atom_dis2.set_from_vectorial_prod(bond_dir, atom_dis1)
-        atom_dis2.x *= atom_dis2.z # ensure z is positive
-        atom_dis2.y *= atom_dis2.z # ensure z is positive
-        atom_dis2.z *= atom_dis2.z # ensure z is positive
+        if atom_dis2.z < 0:
+            atom_dis2.x *= atom_dis2.z # ensure z is positive
+            atom_dis2.y *= atom_dis2.z # ensure z is positive
+            atom_dis2.z *= atom_dis2.z # ensure z is positive
         atom_dis2.set_norm(ref_distance*1.5)
         for fs in [[1,0], [-1/2, 3**.5/2], [-1/2, -3**.5/2]]:
             f1 = fs[1]
