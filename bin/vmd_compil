@@ -5,7 +5,7 @@ vmdresolution=1024
 
 CPKrepresentation="mol representation CPK 1.000000 0.300000 30.000000 12.000000"
 VDWrepresentation="mol representation VDW 0.250000 30.000000"
-tmp_for_bonds_prefix="tmp_for_bonds"
+tmp_for_bonds_prefix="tmp_vmd_for_bonds"
 # currently only xyz format is supported
 # for direct compilation with colors
 # and mol2 to account for multiple bonds

@@ -28,7 +28,7 @@ parser.add_argument("-f", "--format",
                  )
 parser.add_argument("-p", "--prefix",
                   dest = "prefix",
-                  default="tmp_for_bonds",
+                  default="tmp_vmd_for_bonds",
                   help = "Prefix to handle additionnal files for bonds"
                  )
 parser.add_argument("-d", "--distance",
