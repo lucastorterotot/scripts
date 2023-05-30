@@ -1,0 +1,16 @@
+#!/bin/bash
+
+for arg in "$@"
+do
+    argnoext=${arg%.*}
+    file=$(basename $argnoext)
+    dir=$(dirname $argnoext)
+    (cd $dir
+    bookletname="booklet-${file}"
+    cp ${lt_scripts_dir}/tex_files/booklet.tex .
+    text_replacement XXX ${file} booklet.tex
+    pdflatex -interaction=batchmode booklet.tex
+    mv booklet.pdf ${bookletname}.pdf
+    rm booklet.*
+    )
+done
