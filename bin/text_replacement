@@ -32,23 +32,23 @@ printf "Looking for matching files...\n"
 
 if [[ $recursive == 0 ]]
 then
-    files=$(find $(pwd) -maxdepth 1 -type f -iname "$3")
+    maxdepth="-maxdepth 1"
 else
-    files=$(find $(pwd) -type f -iname "$3")
+    maxdepth=""
 fi
 
-for file in $files
+find $(pwd) $maxdepth -type f -iname "$3" | while read -r file
 do
-    if [[ $(grep -l $file -e "$1") == $file ]]
+    if [[ $(grep -l "$file" -e "$1") == "$file" ]]
     then
         printf "$file\n"
         if [[ $dry_run == 0 ]]
         then
-            timestamp=$(date --rfc-3339=ns -r $file)
-            sed -i "s|$1|$2|g" $file
+            timestamp=$(date --rfc-3339=ns -r "$file")
+            sed -i "s|$1|$2|g" "$file"
             if [[ $preserve_timestamps == 1 ]]
             then
-                touch -d "$timestamp" $file
+                touch -d "$timestamp" "$file"
             fi
         fi
     fi
