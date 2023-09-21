@@ -73,7 +73,7 @@ for arg in "$@"; do
     if [[ $clean_aux_files == 1 ]]
     then
         _lt_rmrf_for_windows_dropbox -s *.1 *.mp *.t1 &
-        _lt_rmrf_for_windows_dropbox -s $file.aux $file.out $file.toc $file.lof $file.lot $file.mw $file.nav $file.snm $file.synctex.gz $file.maf $file.mtc $file.ptc $file.bcf $file.bbl $file.run.xml $file-blx.bib $file.idx $file.ilg $file.ind &
+        _lt_rmrf_for_windows_dropbox -s $file.aux $file.out $file.toc $file.lof $file.lot $file.mw $file.nav $file.snm $file.synctex.gz $file.maf $file.mtc $file.ptc $file.bcf $file.bbl $file.run.xml $file-blx.bib $file.idx $file.ilg $file.ind $file.w18 &
         _lt_rmrf_for_windows_dropbox -s $file-*.cpt &
         _lt_rmrf_for_windows_dropbox -s $file.mtc* &
         _lt_rmrf_for_windows_dropbox -s _minted-$file &
