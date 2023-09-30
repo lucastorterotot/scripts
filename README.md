@@ -28,3 +28,8 @@ git clone https://gitlab.com/lucastorterotot/scripts.git --origin lucas
 ```
 ./scripts/install
 ```
+
+3. If you encounter lots of "Use of uninitialized value" while using biber, please run
+```
+cd /usr/share/perl5/Biber ; sudo mv Config.pm Config-bak.pm ; sudo wget https://github.com/plk/biber/raw/54a68aa1b66f720c50658ab45e96d8a0c14005c7/lib/Biber/Config.pm
+```
