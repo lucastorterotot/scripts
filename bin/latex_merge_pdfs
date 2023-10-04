@@ -6,6 +6,7 @@ do
     case "$opt" in
         o)
             output="$OPTARG"
+            shift
             ;;
     esac
 done
