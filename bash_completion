@@ -17,6 +17,7 @@ _install_xspec '!*.tex' lualatex_complete_sequence
 _install_xspec '!*.tex' latex_engine_complete_sequence
 _install_xspec '!*.tex' feynmp_compil
 _install_xspec '!*.pdf' latex_make_booklet
+_install_xspec '!*.pdf' latex_merge_pdfs
 _install_xspec '!*.@(vmd|xyz|pdb|cml|mol|mol2|gzmat|gamin)' vmd_compil
 
 unset -f _install_xspec
