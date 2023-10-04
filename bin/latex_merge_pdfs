@@ -1,0 +1,25 @@
+#!/bin/bash
+
+output=merged_pdf
+while getopts ":o:" opt
+do
+    case "$opt" in
+        o)
+            output="$OPTARG"
+            ;;
+    esac
+done
+
+head -n 22 $lt_scripts_dir/tex_files/latex_merge_pdfs.tex > ${output}.tex
+
+for arg in "$@"
+do
+    for f in $(ls $arg)
+    do
+        echo "\\includepdf{$(pwd)/$f}" >> ${output}.tex
+    done
+done
+
+echo "\\end{document}" >> ${output}.tex
+
+pdflatex_complete_sequence ${output}.tex
