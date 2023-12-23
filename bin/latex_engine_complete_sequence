@@ -60,7 +60,7 @@ for arg in "$@"; do
         then
             printf '\n'
         fi
-        if [[ $(grep -l $file.log -e 'Rerun to get cross-references right' -e 'undefined references' -e 'undefined on input line') != $file.log ]] && [[ $continue_workflow == 1 ]]
+        if [[ $(grep -l $file.log -e 'Rerun to get cross-references right' -e 'undefined references' -e 'undefined on input line' -e 'unreferenced destination with name.*figure.caption') != $file.log ]] && [[ $continue_workflow == 1 ]]
         then
             continue_workflow=-1
         fi
