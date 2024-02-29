@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for ext in aux out toc lof lot mw nav snm synctex.gz maf ptc bcf bbl run.xml idx ilg ind cpt w18
+for ext in aux out toc lof lot mw nav snm synctex.gz maf ptc bcf bbl run.xml idx ilg ind cpt w18 listing
 do
     (
         for f in $(find . -type f -iname \*.$ext | grep -ve /.git/)
