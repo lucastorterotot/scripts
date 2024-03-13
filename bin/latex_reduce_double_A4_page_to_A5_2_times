@@ -1,0 +1,14 @@
+#!/bin/bash
+
+for arg in "$@"
+do
+    argnoext=${arg%.*}
+    file=$(basename $argnoext)
+    dir=$(dirname $argnoext)
+    (cd $dir
+    latex_merge_pdfs -o double_A4_page_to_A5_2_times-${file} $(basename $arg) $(basename $arg)
+    latex_make_booklet double_A4_page_to_A5_2_times-${file}.pdf
+    mv booklet-double_A4_page_to_A5_2_times-${file}.pdf reduced-${file}.pdf
+    rm *double_A4_page_to_A5_2_times*
+    )
+done
