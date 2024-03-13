@@ -18,7 +18,7 @@ for arg in "$@"
 do
     for f in $(ls $arg)
     do
-        echo "\\includepdf{$(pwd)/$f}" >> ${output}.tex
+        echo "\\includepdf[pages={-}]{$(pwd)/$f}" >> ${output}.tex
     done
 done
 
