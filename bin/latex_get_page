@@ -1,0 +1,16 @@
+#!/bin/bash
+
+argnoext=${2%.*}
+
+file=$(basename $argnoext)
+dir=$(dirname $argnoext)
+    (
+     cd $dir
+     page_extractname="${file}-page_${1}"
+     cp ${lt_scripts_dir}/tex_files/page_extract.tex .
+     text_replacement XXpageXX $1 page_extract.tex
+     text_replacement XXfileXX $2 page_extract.tex
+     pdflatex -interaction=batchmode page_extract.tex
+     mv page_extract.pdf ${page_extractname}.pdf
+     rm page_extract.*
+    )
