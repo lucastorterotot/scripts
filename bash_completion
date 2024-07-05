@@ -19,6 +19,7 @@ _install_xspec '!*.tex' feynmp_compil
 _install_xspec '!*.pdf' latex_make_booklet
 _install_xspec '!*.pdf' latex_merge_pdfs
 _install_xspec '!*.pdf' latex_get_page
+_install_xspec '!*.pdf' latex_reduce_A4_to_A5
 _install_xspec '!*.pdf' latex_reduce_double_A4_page_to_A5_2_times
 _install_xspec '!*.pdf' latex_reduce_single_A4_page_to_A5_2_times
 _install_xspec '!*.@(vmd|xyz|pdb|cml|mol|mol2|gzmat|gamin)' vmd_compil

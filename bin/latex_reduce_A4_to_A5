@@ -1,0 +1,16 @@
+#!/bin/bash
+
+for arg in "$@"
+do
+    argnoext=${arg%.*}
+    file=$(basename $argnoext)
+    dir=$(dirname $argnoext)
+    (cd $dir
+    A4_to_A5name="reduced_A5-${file}"
+    cp ${lt_scripts_dir}/tex_files/A4_to_A5.tex .
+    text_replacement XXX ${file} A4_to_A5.tex
+    pdflatex -interaction=batchmode A4_to_A5.tex
+    mv A4_to_A5.pdf ${A4_to_A5name}.pdf
+    rm A4_to_A5.*
+    )
+done
