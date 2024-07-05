@@ -6,10 +6,9 @@ do
     file=$(basename $argnoext)
     dir=$(dirname $argnoext)
     (cd $dir
-    latex_merge_pdfs -o single_A4_page_to_A5_2_times-${file} $(basename $arg) $(basename $arg) $(basename $arg) $(basename $arg)
-    latex_make_booklet single_A4_page_to_A5_2_times-${file}.pdf
-    latex_get_page 1 booklet-single_A4_page_to_A5_2_times-${file}.pdf
-    mv booklet-single_A4_page_to_A5_2_times-${file}-page_1.pdf reduced-${file}.pdf
-    rm *single_A4_page_to_A5_2_times* booklet-single_A4_page_to_A5_2_times-${file}.pdf
+    latex_merge_pdfs -o single_A4_page_to_A5_2_times-${file} $(basename $arg) $(basename $arg)
+    latex_reduce_A4_to_A5 single_A4_page_to_A5_2_times-${file}.pdf
+    mv reduced_A5-single_A4_page_to_A5_2_times-${file}.pdf reduced-${file}.pdf
+    rm *single_A4_page_to_A5_2_times*
     )
 done
