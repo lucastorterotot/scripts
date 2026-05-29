@@ -82,7 +82,7 @@ for arg in "$@"; do
         _lt_rmrf_for_clouds -s _minted-$file &
         _lt_rmrf_for_clouds -s $file.listing &
     fi
-    ([ -s liste-exos_de_cours.tex ] && (sed -i "s|^input|\\\input|g" liste-exos_de_cours.tex ; sed -i "s|$enseignement_db/|\\\eDBdir|g" liste-exos_de_cours.tex ; sed -i "s|$HOME|\\\homedir|g" liste-exos_de_cours.tex) || _lt_rmrf_for_clouds liste-exos_de_cours.tex) &
+    ([ -s liste-exos_de_cours.tex ] && (sed -i "s|$enseignement_db/|\\\eDBdir|g" liste-exos_de_cours.tex ; sed -i "s|$HOME|\\\homedir|g" liste-exos_de_cours.tex) || _lt_rmrf_for_clouds liste-exos_de_cours.tex) &
     ([ -s fichier-infos_competences.tex ] && (sed -i "s|$enseignement_db/|\\\eDBdir|g" fichier-infos_competences.tex ; sed -i "s|$HOME|\\\homedir|g" fichier-infos_competences.tex))
     ([ -s brm_infos.txt ] && (sed -i "s|XXTABXX|\t|g" brm_infos.txt)) &
     wait
