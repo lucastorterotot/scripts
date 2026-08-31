@@ -37,6 +37,7 @@ sed -i "s|\\\text\ {\\\rm\ |{|g" $out
 sed -i "s|\\\emph||g" $out
 sed -i "s|\\\relax||g" $out
 sed -i "s|\\\$||g" $out
+sed -i "s|--|-|g" $out
 for k in {0..9}
 do
     sed -i "s|$k\}|$k |g" $out
