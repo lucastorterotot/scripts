@@ -3,6 +3,7 @@
 nbcompilmax=5
 clean_aux_files=1
 compiler=lualatex
+get_toc=0
 for arg in "$@"; do
     case "$arg" in
         -nc)
@@ -15,6 +16,10 @@ for arg in "$@"; do
             ;;
         -pdf)
             compiler=pdflatex
+            shift
+            ;;
+        -toc)
+            get_toc=1
             shift
             ;;
     esac
@@ -73,6 +78,10 @@ for arg in "$@"; do
         break
     fi
     printf '\n\t' ; printf $nbcompil ; printf ' compilations.\n\n'
+    if [[ $get_toc == 1 ]]
+    then
+        latex_get_toc $file.toc
+    fi
     if [[ $clean_aux_files == 1 ]]
     then
         _lt_rmrf_for_clouds -s *.1 *.mp *.t1 &

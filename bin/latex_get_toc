@@ -1,0 +1,45 @@
+#!/bin/bash
+
+file=${1}
+out=extracted_toc.txt
+
+cat $file | grep contentsline | grep -o " ".s.* | grep section | grep -o numberline.*section | grep -o " ".*[0-9] | grep -o [0-9].*\} > $out
+
+sed -i "s|\}$||g" $out
+sed -i "s|\~| |g" $out
+sed -i "s|\\\sim|\~|g" $out
+sed -i "s|\\\\\`a|à|g" $out
+sed -i "s|\\\\\`A|À|g" $out
+sed -i "s|\\\'e|é|g" $out
+sed -i "s|\\\'E|É|g" $out
+sed -i "s|\\\\\`e|è|g" $out
+sed -i "s|\\\\\`E|È|g" $out
+sed -i "s|\\\IeC {\\\^\\\i \}|î|g" $out
+sed -i "s|\\\IeC {\\\^\\\I \}|Î|g" $out
+sed -i "s|\\\"\\\i|ï|g" $out
+sed -i "s|\\\IeC {\\\ï \}|ï|g" $out
+sed -i "s|\\\"\\\I|Ï|g" $out
+sed -i "s|\\\IeC {\\\Ï \}|Ï|g" $out
+sed -i "s|\\\^o|ô|g" $out
+sed -i "s|\\\^O|Ô|g" $out
+sed -i "s|\\\"\\\o|ö|g" $out
+sed -i "s|\\\IeC {\\\ö \}|ö|g" $out
+sed -i "s|\\\"\\\O|Ö|g" $out
+sed -i "s|\\\IeC {\\\Ö \}|Ö|g" $out
+sed -i "s|\\\IeC\ {\\\oe\ }|œ|g" $out
+sed -i "s|\\\IeC\ {\\\OE\ }|Œ|g" $out
+sed -i "s|\\\ss|ß|g" $out
+sed -i "s|\\\&|\&|g" $out
+sed -i "s|\\\@FB@og|«|g" $out
+sed -i "s|\\\@FB@fg|»|g" $out
+sed -i "s|\\\vec\ |\\\vec|g" $out
+sed -i "s|\\\text\ {\\\rm\ |{|g" $out
+sed -i "s|\\\emph||g" $out
+sed -i "s|\\\relax||g" $out
+sed -i "s|\\\$||g" $out
+for k in {0..9}
+do
+    sed -i "s|$k\}|$k |g" $out
+done
+sed -i "s|  | |g" $out
+
