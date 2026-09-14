@@ -3,8 +3,11 @@
 file=${1}
 out=extracted_toc.txt
 
-cat $file | grep contentsline | grep -o " ".s.* | grep section | grep -o numberline.*section | grep -o " ".*[0-9] | grep -o [0-9].*\} > $out
+cat ${file/toc/aux} | grep ^.gdef...title | grep -o \{.*\} > $out
+echo "" >> $out
+cat $file | grep contentsline | grep -o " ".s.* | grep section | grep -o numberline.*section | grep -o " ".*[0-9] | grep -o [0-9].*\} >> $out
 
+sed -i "s|^{||g" $out
 sed -i "s|\}$||g" $out
 sed -i "s|\~| |g" $out
 sed -i "s|\\\sim|\~|g" $out
